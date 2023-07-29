@@ -1,10 +1,10 @@
 export const ADMIN_MENU = [
   { label: 'Create Ads', cat: 'ad' },
   { label: 'Get Listing Info', cat: 'listing' },
-  { label: 'Upload Photos', cat: 'photo' },
   { label: 'Edit Special Offers', cat: 'special' },
   { label: 'Manage Clients', cat: 'client' },
   { label: 'Write Blog', cat: 'blog' },
+  { label: 'Edit Blog', cat: 'editblog' },
 ];
 
 export const COMPANY_NAME = [
@@ -12,6 +12,7 @@ export const COMPANY_NAME = [
   { label: 'Cennetenial', value: 'ct' },
   { label: 'Metronest', value: 'mtrn' },
   { label: 'Rockrose', value: 'rr' },
+  { label: 'Gotham', value: 'gthm' },
   { label: 'Stonehenge', value: 'sh' },
   { label: 'Stuytown', value: 'st' },
   { label: 'TFC', value: 'tfc' },

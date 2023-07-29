@@ -2,3 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
+.ql-snow .ql-editor img {
+  display: block;
+  max-width: 480px !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ql-editor {
+  border: none
+}

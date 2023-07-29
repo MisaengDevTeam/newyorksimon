@@ -1,20 +1,21 @@
 'use client';
 
-import axios from 'axios';
-// import ReactQuill from 'react-quill';
+import { useCallback, useMemo, useState } from 'react';
+import SelectComp from '../../input/SelectComp';
+import dynamic from 'next/dynamic';
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 import 'react-quill/dist/quill.snow.css';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { resizeBlogImage } from '@/app/lib/imageResizer';
-import { useMemo, useState } from 'react';
-import SelectComp from '../../input/SelectComp';
 import Heading from '../../Heading';
 import { BLOG_CATEGORY, CATEGORY_OPTION } from '@/types/BlogTypes';
-import dynamic from 'next/dynamic';
+import axios from 'axios';
 
-interface AdminBlogProps {}
+interface AdminEditBlogProps {}
 
-const AdminBlog: React.FC<AdminBlogProps> = ({}) => {
+const AdminEditBlog: React.FC<AdminEditBlogProps> = ({}) => {
+  const [listings, setListings] = useState<any[]>([]);
+  const [selectedListing, setSelectedListing] = useState('');
   const [content, setContent] = useState('');
   const [imgSrc, setImgSrc] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -24,7 +25,7 @@ const AdminBlog: React.FC<AdminBlogProps> = ({}) => {
     nickname: `Misaeng`,
     name: ``,
     image: ``,
-    newImage: `https://misaeng.s3.us-east-1.amazonaws.com/profileImage/6478c82877ecb0881e513544/2023-06-25T01%3A13%3A11.219Z/ed05522b-9c16-4aff-ac23-352e677635d5`,
+    newImage: `https://misaeng.s3.amazonaws.com/profile/6424c20d9b32145ab46de5bd/00f0034e-fa30-4c60-990d-8866531fa553`,
   };
 
   const {
@@ -133,23 +134,29 @@ const AdminBlog: React.FC<AdminBlogProps> = ({}) => {
     'image',
   ];
 
+  const fetchCategoryListing = useCallback((category: string) => {
+    axios
+      .post(`/api/blogEdit`, { category })
+      .then((res) => setListings(res.data.result));
+  }, []);
+
+  const fetchSelectedListing = useCallback((blogId: string) => {
+    axios
+      .post(`/api/blogEdit`, { blogId })
+      .then((res) => setContent(res.data.result[0].content));
+  }, []);
+
   const subtitle = `썸네일은 업로드하는 첫번째 사진으로 자동 저장됨`;
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
+
     axios
-      .post(`/api/blogRegister`, {
-        ...data,
-        uid: currentUser?.id,
+      .put(`/api/blogEdit`, {
+        blogId: selectedListing,
         content,
-        thumbnail: imgSrc[0],
-        createdAt: writeTime,
-        author: currentUser?.nickname || currentUser?.name,
-        authorPic: currentUser?.newImage || currentUser?.image,
       })
       .then((response) => {
-        console.log(response);
-        // roommateRegisterModal.onClose();
         reset();
       })
       .catch((error) => {
@@ -160,60 +167,52 @@ const AdminBlog: React.FC<AdminBlogProps> = ({}) => {
         location.reload();
       });
   };
-
   return (
-    <div className='w-full h-full overflow-y-scroll'>
-      <div className='flex flex-col gap-6'>
-        <Heading title={'블로그 작성'} subtitle={subtitle} />
-        <div className='flex flex-col lg:flex-row gap-4 px-4'>
-          <div className='w-full lg:w-1/3 xl:w-1/4 2xl:w-1/5'>
-            <SelectComp
-              small
-              placeholder={'카테고리'}
-              options={CATEGORY_OPTION}
-              onChange={(value) => {
-                setCustomValue('category', value);
-              }}
-            />
-          </div>
-          <div className='w-full lg:w-1/2 xl:w-1/4 2xl:w-1/5'>
-            <SelectComp
-              small
-              placeholder={'이번달 핫토픽?'}
-              options={[
-                { label: 'Yes', value: 'Yes' },
-                { label: 'No', value: 'No' },
-              ]}
-              onChange={(value) => {
-                setCustomValue('hot', value);
-              }}
-            />
-          </div>
-          <input
-            placeholder='제목을 입력해주세요'
-            onChange={(e) => setCustomValue('title', e.target.value)}
-            className='w-full h-[46px] px-4 outline-none border border-neutral-500 rounded-lg'
+    <div className='flex flex-col w-full h-full overflow-y-scroll gap-4'>
+      <Heading title={'블로그 수정하기'} subtitle={subtitle} />
+      <div className='flex w-full gap-4 px-4'>
+        <div className='w-1/5'>
+          <SelectComp
+            small
+            placeholder={'카테고리'}
+            options={CATEGORY_OPTION}
+            onChange={(e) => {
+              fetchCategoryListing(e);
+            }}
           />
         </div>
-        <div className='px-4'>
-          <ReactQuill
-            value={content}
-            onChange={handleChange}
-            placeholder='Write something...'
-            modules={modules}
-            formats={formats}
+        <div className='w-4/5'>
+          <SelectComp
+            small
+            placeholder={''}
+            options={
+              listings.length > 0 ? listings : [{ label: '', value: '' }]
+            }
+            onChange={(e) => {
+              setSelectedListing(e);
+              fetchSelectedListing(e);
+            }}
           />
         </div>
-        <div className='w-full flex flex-col sm:flex-row justify-center items-center gap-6'>
-          <button
-            onClick={handleSubmit(onSubmit)}
-            className='py-2 px-4 bg-[#EC662A] text-[#FFF] rounded-xl w-full sm:w-[300px]'
-          >
-            블로그 작성하기
-          </button>
-        </div>
+      </div>
+      <div className='px-4'>
+        <ReactQuill
+          value={content}
+          onChange={handleChange}
+          placeholder='Write something...'
+          modules={modules}
+          formats={formats}
+        />
+      </div>
+      <div className='w-full flex flex-col sm:flex-row justify-center items-center gap-6'>
+        <button
+          onClick={handleSubmit(onSubmit)}
+          className='py-2 px-4 bg-[#EC662A] text-[#FFF] rounded-xl w-full sm:w-[300px]'
+        >
+          블로그 수정하기
+        </button>
       </div>
     </div>
   );
 };
-export default AdminBlog;
+export default AdminEditBlog;

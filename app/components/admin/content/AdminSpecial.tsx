@@ -1,11 +1,21 @@
 import axios from 'axios';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import SelectComp from '../../input/SelectComp';
 import {
   COMPANY_NAME,
   BROKER_FEE_OPTION,
   UTILITY_OPTION,
 } from '@/types/AdminTypes';
+import {
+  ROCKROSE_BUILDING,
+  STONEHENGE_BUILDING,
+  GOTHAM_BUILDING,
+  METRONEST_BUILDING,
+  CENTENNIAL_BUILDING,
+  TFC_BUILDING,
+  BILTMORE_BUILDING,
+  STUYTOWN_BUILDING,
+} from '@/types/BuildingTypes';
 
 interface AdminSpecialProps {}
 
@@ -13,6 +23,7 @@ const AdminSpecial: React.FC<AdminSpecialProps> = ({}) => {
   const newOffer = useRef<HTMLInputElement | null>(null);
 
   const [company, setCompany] = useState<string | null>(null);
+  const [building, setBuilding] = useState<string>('');
   const [specialOffer, setSpecialOffer] = useState<string>('');
   const [broker, setBroker] = useState<string>('');
   const [utility, setUtility] = useState<string>('');
@@ -48,21 +59,56 @@ const AdminSpecial: React.FC<AdminSpecialProps> = ({}) => {
     });
   };
 
+  const generateOption = useCallback((buildingName: string) => {
+    switch (buildingName) {
+      case 'rr':
+        return ROCKROSE_BUILDING;
+      case 'sh':
+        return STONEHENGE_BUILDING;
+      case 'gthm':
+        return GOTHAM_BUILDING;
+      case 'mtrn':
+        return METRONEST_BUILDING;
+      case 'tfc':
+        return TFC_BUILDING;
+      case 'ct':
+        return CENTENNIAL_BUILDING;
+      case 'btm':
+        return BILTMORE_BUILDING;
+      case 'st':
+        return STUYTOWN_BUILDING;
+      default:
+        return [{ label: '', value: '' }];
+    }
+  }, []);
+
   return (
-    <div className='flex flex-col w-full p-10 gap-10'>
-      <div className='flex flex-col w-full p-10 gap-10'>
+    <div className='flex flex-col items-center justify-center w-full h-full p-4 gap-4'>
+      <div className='flex flex-col w-full p-4 gap-4'>
         <p className='w-full text-center text-xl font-bold italic'>
           SPECIAL OFFER MANAGEMENT
         </p>
         <div className='flex flex-col jusitfy-center items-center w-full px-10'>
           <div className='flex gap-4 w-full justify-center'>
-            <div className='w-[150px]'>
+            <div className='w-1/6'>
               <SelectComp
                 placeholder={'Company'}
                 options={COMPANY_NAME}
                 onChange={(e) => {
                   setCompany(e);
                   fetchSpecialOffer(e);
+                }}
+                small
+              />
+            </div>
+            <div className='w-2/6'>
+              <SelectComp
+                placeholder={'Company'}
+                options={
+                  company ? generateOption(company) : [{ label: '', value: '' }]
+                }
+                onChange={(e) => {
+                  setBuilding(e);
                 }}
                 small
               />
@@ -76,12 +122,27 @@ const AdminSpecial: React.FC<AdminSpecialProps> = ({}) => {
         </div>
         <div className='flex flex-col jusitfy-center items-center w-full px-10'>
           <div className='flex gap-4 w-full justify-center'>
-            <div className='w-[150px]'>
+            <div className='w-1/6'>
               <SelectComp
+                disabled
                 defaultValue={company}
                 placeholder={'Company'}
                 options={COMPANY_NAME}
                 onChange={() => {}}
+                small
+              />
+            </div>
+            <div className='w-2/6'>
+              <SelectComp
+                disabled
+                defaultValue={building}
+                placeholder={'Company'}
+                options={
+                  company ? generateOption(company) : [{ label: '', value: '' }]
+                }
+                onChange={(e) => {
+                  console.log(e);
+                }}
                 small
               />
             </div>
@@ -103,13 +164,13 @@ const AdminSpecial: React.FC<AdminSpecialProps> = ({}) => {
           </button>
         </div>
       </div>
-      <div className='flex flex-col w-full p-10 gap-10'>
+      <div className='flex flex-col w-full p-4 gap-4'>
         <p className='w-full text-center text-xl font-bold italic'>
           BROKER FEE, UTILITY
         </p>
         <div className='flex flex-col jusitfy-center items-center w-full px-10'>
           <div className='flex gap-4 w-full justify-center'>
-            <div className='w-[150px]'>
+            <div className='w-1/6'>
               <SelectComp
                 placeholder={'Company'}
                 defaultValue={company}
@@ -117,10 +178,25 @@ const AdminSpecial: React.FC<AdminSpecialProps> = ({}) => {
                 onChange={(e) => {
                   setCompany(e);
                 }}
+                disabled
                 small
               />
             </div>
-            <div className='w-[150px]'>
+            <div className='w-2/6'>
+              <SelectComp
+                disabled
+                defaultValue={building}
+                placeholder={'Company'}
+                options={
+                  company ? generateOption(company) : [{ label: '', value: '' }]
+                }
+                onChange={(e) => {
+                  console.log(e);
+                }}
+                small
+              />
+            </div>
+            <div className='w-1/4'>
               <SelectComp
                 defaultValue={utility}
                 placeholder={'Utility'}
@@ -130,7 +206,7 @@ const AdminSpecial: React.FC<AdminSpecialProps> = ({}) => {
                 small
               />
             </div>
-            <div className='w-[150px]'>
+            <div className='w-1/4'>
               <SelectComp
                 defaultValue={broker}
                 placeholder={'Broker Fee'}
@@ -145,7 +221,7 @@ const AdminSpecial: React.FC<AdminSpecialProps> = ({}) => {
 
         <div className='flex flex-col jusitfy-center items-center w-full px-10'>
           <div className='flex gap-4 w-full justify-center'>
-            <div className='w-[150px]'>
+            <div className='w-1/6'>
               <SelectComp
                 placeholder={'Company'}
                 defaultValue={company}
@@ -153,10 +229,25 @@ const AdminSpecial: React.FC<AdminSpecialProps> = ({}) => {
                 onChange={(e) => {
                   setCompany(e);
                 }}
+                disabled
                 small
               />
             </div>
-            <div className='w-[150px]'>
+            <div className='w-2/6'>
+              <SelectComp
+                disabled
+                defaultValue={building}
+                placeholder={'Company'}
+                options={
+                  company ? generateOption(company) : [{ label: '', value: '' }]
+                }
+                onChange={(e) => {
+                  console.log(e);
+                }}
+                small
+              />
+            </div>
+            <div className='w-1/4'>
               <SelectComp
                 placeholder={'Utility'}
                 options={UTILITY_OPTION}
@@ -166,7 +257,7 @@ const AdminSpecial: React.FC<AdminSpecialProps> = ({}) => {
                 small
               />
             </div>
-            <div className='w-[150px]'>
+            <div className='w-1/4'>
               <SelectComp
                 placeholder={'Broker Fee'}
                 options={BROKER_FEE_OPTION}
