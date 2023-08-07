@@ -1,11 +1,11 @@
-export const CENTENNIAL_BUILDING = [{ label: 'All buildings', value: '' }];
+export const CENTENNIAL_BUILDING = [{ label: 'All buildings', value: 'All' }];
 
-export const BILTMORE_BUILDING = [{ label: 'All buildings', value: '' }];
+export const BILTMORE_BUILDING = [{ label: 'All buildings', value: 'All' }];
 
-export const STUYTOWN_BUILDING = [{ label: 'All buildings', value: '' }];
+export const STUYTOWN_BUILDING = [{ label: 'All buildings', value: 'All' }];
 
 export const ROCKROSE_BUILDING = [
-  { label: 'All buildings', value: '' },
+  { label: 'All buildings', value: 'All' },
   {
     label: '47-05 Center Blvd, Queens, NY 11101',
     value: '6494ab6b9484dc2ea7486586',
@@ -53,7 +53,7 @@ export const ROCKROSE_BUILDING = [
 ];
 
 export const STONEHENGE_BUILDING = [
-  { label: 'All buildings', value: '' },
+  { label: 'All buildings', value: 'All' },
   { label: 'Stonehenge Gardens', value: '649474c29484dc2ea74864e0' },
   { label: 'RiverEast', value: '649475869484dc2ea74864e5' },
   { label: 'Stonehenge 70', value: '649475e09484dc2ea74864ea' },
@@ -80,7 +80,7 @@ export const STONEHENGE_BUILDING = [
 ];
 
 export const GOTHAM_BUILDING = [
-  { label: 'All buildings', value: '' },
+  { label: 'All buildings', value: 'All' },
   { label: 'The Ashland', value: '64c17073a19b3f83d7dcfe76' },
   { label: 'Atlas New York', value: '64c1712da19b3f83d7dcfe81' },
   { label: 'Gotham West', value: '64c17177a19b3f83d7dcfe88' },
@@ -88,7 +88,7 @@ export const GOTHAM_BUILDING = [
 ];
 
 export const METRONEST_BUILDING = [
-  { label: 'All buildings', value: '' },
+  { label: 'All buildings', value: 'All' },
   { label: '47-45 Vernon Blvd', value: '64aee55f4da533066c0c3cfb' },
   { label: '25 Clinton Street', value: '64aee77a4da533066c0c3d01' },
   { label: '11 Jones Street', value: '64aee81f4da533066c0c3d07' },
@@ -120,6 +120,7 @@ export const METRONEST_BUILDING = [
 ];
 
 export const TFC_BUILDING = [
+  { label: 'All buildings', value: 'All' },
   { label: '45 Wall St', value: '649da9600498a2417ebe7908' },
   { label: '200 W 26th St', value: '649da9770498a2417ebe7919' },
   { label: '33 Bond St', value: '64a77300faa5cefd1e1e0edb' },
@@ -140,4 +141,27 @@ export const TFC_BUILDING = [
   { label: '455 W 37th St', value: '64a312d45c7e835799266061' },
   { label: '223 N 8th St', value: '64a849cbfaa5cefd1e1e0ee6' },
   { label: '95 Horatio St', value: '64a84a58faa5cefd1e1e0eed' },
+];
+
+export const RELATED_BUILDING = [
+  { label: 'All buildings', value: 'All' },
+  { label: 'The Westport', value: '64caee544fa91bb06d65464a' },
+  { label: 'One Carnegie Hill', value: '64caefa44fa91bb06d654652' },
+  { label: 'Tribeca Tower', value: '64caf0224fa91bb06d654665' },
+  { label: 'Riverwalk Crossing', value: '64caf0894fa91bb06d654672' },
+  { label: '1214 Fifth Avenue', value: '64caf0d54fa91bb06d654674' },
+  { label: 'The Tate', value: '64caf15f4fa91bb06d65467b' },
+  { label: 'Riverwalk Point', value: '64cb11f54fa91bb06d6546e2' },
+  { label: 'MiMA', value: '64caf1a64fa91bb06d65467c' },
+  { label: 'The Set', value: '64caf1e44fa91bb06d654685' },
+  { label: 'One Union Square South', value: '64caf23c4fa91bb06d654688' },
+  { label: 'The Caledonia', value: '64caf2c44fa91bb06d6546ab' },
+  { label: 'The Sierra', value: '64caf30e4fa91bb06d6546ad' },
+  { label: 'The Westminster', value: '64caf36b4fa91bb06d6546b2' },
+  { label: 'Tribeca Park', value: '64caf3be4fa91bb06d6546b9' },
+  { label: '89 Murray', value: '64caf5a44fa91bb06d6546c4' },
+  { label: 'Abington House', value: '64caf5df4fa91bb06d6546d3' },
+  { label: 'One Hudson Yards', value: '64caf6b14fa91bb06d6546d5' },
+  { label: '456 Washington St.', value: '64caf7094fa91bb06d6546d7' },
+  { label: 'The Strathmore', value: '64caf73e4fa91bb06d6546de' },
 ];

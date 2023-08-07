@@ -184,7 +184,7 @@ const AdminEditBlog: React.FC<AdminEditBlogProps> = ({}) => {
         <div className='w-4/5'>
           <SelectComp
             small
-            placeholder={''}
+            placeholder={'제목을 선택해주세요'}
             options={
               listings.length > 0 ? listings : [{ label: '', value: '' }]
             }

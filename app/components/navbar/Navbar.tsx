@@ -4,7 +4,7 @@ import NavLinkItem from './NavLinkItem';
 
 const Navbar = ({}) => {
   return (
-    <nav className='fixed w-full flex justify-center p-4 h-[83px] shadow-lg'>
+    <nav className='fixed w-full flex justify-center p-4 h-[83px] shadow-lg bg-white'>
       <div className='flex justify-between items-center w-full max-w-[1440px] text-[#E5BD4C]'>
         <Link
           className='flex items-center gap-2 w-[220px] cursor-pointer'

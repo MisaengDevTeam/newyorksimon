@@ -30,6 +30,10 @@ const AdminContent: React.FC<AdminContentProps> = ({ currentTab }) => {
         return <div>Something wrong</div>;
     }
   }, []);
-  return <div className='p-6 w-full h-full'>{generateContent(currentTab)}</div>;
+  return (
+    <div className='p-2 sm:p-6 w-full h-full'>
+      {generateContent(currentTab)}
+    </div>
+  );
 };
 export default AdminContent;

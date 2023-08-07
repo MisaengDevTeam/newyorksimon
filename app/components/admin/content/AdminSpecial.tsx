@@ -5,6 +5,7 @@ import {
   COMPANY_NAME,
   BROKER_FEE_OPTION,
   UTILITY_OPTION,
+  ROOMTYPE_OPTION,
 } from '@/types/AdminTypes';
 import {
   ROCKROSE_BUILDING,
@@ -15,6 +16,7 @@ import {
   TFC_BUILDING,
   BILTMORE_BUILDING,
   STUYTOWN_BUILDING,
+  RELATED_BUILDING,
 } from '@/types/BuildingTypes';
 
 interface AdminSpecialProps {}
@@ -23,6 +25,7 @@ const AdminSpecial: React.FC<AdminSpecialProps> = ({}) => {
   const newOffer = useRef<HTMLInputElement | null>(null);
 
   const [company, setCompany] = useState<string | null>(null);
+  const [roomtype, setRoomtype] = useState<string>('');
   const [building, setBuilding] = useState<string>('');
   const [specialOffer, setSpecialOffer] = useState<string>('');
   const [broker, setBroker] = useState<string>('');
@@ -30,8 +33,12 @@ const AdminSpecial: React.FC<AdminSpecialProps> = ({}) => {
   const [newBroker, setNewBroker] = useState<string>('');
   const [newUtility, setNewUtility] = useState<string>('');
 
-  const fetchSpecialOffer = async (company: string) => {
-    axios.post(`/api/special`, { company }).then((res) => {
+  const fetchSpecialOffer = async (
+    company: string,
+    building: string,
+    roomtype: string
+  ) => {
+    axios.post(`/api/special`, { company, building, roomtype }).then((res) => {
       setSpecialOffer(res.data.specialOfferInfo[0].special);
       setBroker(res.data.specialOfferInfo[0].broker);
       setUtility(res.data.specialOfferInfo[0].utility);
@@ -42,6 +49,8 @@ const AdminSpecial: React.FC<AdminSpecialProps> = ({}) => {
     axios
       .put(`/api/special`, {
         company,
+        building,
+        roomtype,
         specialOffer,
       })
       .then((res) => {
@@ -54,9 +63,11 @@ const AdminSpecial: React.FC<AdminSpecialProps> = ({}) => {
     broker: string,
     utility: string
   ) => {
-    axios.put(`/api/special`, { company, broker, utility }).then((res) => {
-      console.log(res.data.message);
-    });
+    axios
+      .put(`/api/special`, { company, building, roomtype, broker, utility })
+      .then((res) => {
+        console.log(res.data.message);
+      });
   };
 
   const generateOption = useCallback((buildingName: string) => {
@@ -77,6 +88,8 @@ const AdminSpecial: React.FC<AdminSpecialProps> = ({}) => {
         return BILTMORE_BUILDING;
       case 'st':
         return STUYTOWN_BUILDING;
+      case 'rltd':
+        return RELATED_BUILDING;
       default:
         return [{ label: '', value: '' }];
     }
@@ -96,19 +109,28 @@ const AdminSpecial: React.FC<AdminSpecialProps> = ({}) => {
                 options={COMPANY_NAME}
                 onChange={(e) => {
                   setCompany(e);
-                  fetchSpecialOffer(e);
                 }}
                 small
               />
             </div>
-            <div className='w-2/6'>
+            <div className='w-1/6'>
               <SelectComp
-                placeholder={'Company'}
+                placeholder={'Building'}
                 options={
                   company ? generateOption(company) : [{ label: '', value: '' }]
                 }
                 onChange={(e) => {
                   setBuilding(e);
+                }}
+                small
+              />
+            </div>
+            <div className='w-1/6'>
+              <SelectComp
+                placeholder={'Room'}
+                options={ROOMTYPE_OPTION}
+                onChange={(e) => {
+                  setRoomtype(e);
                 }}
                 small
               />
@@ -132,7 +154,7 @@ const AdminSpecial: React.FC<AdminSpecialProps> = ({}) => {
                 small
               />
             </div>
-            <div className='w-2/6'>
+            <div className='w-1/6'>
               <SelectComp
                 disabled
                 defaultValue={building}
@@ -146,13 +168,32 @@ const AdminSpecial: React.FC<AdminSpecialProps> = ({}) => {
                 small
               />
             </div>
+            <div className='w-1/6'>
+              <SelectComp
+                disabled
+                placeholder={'Room'}
+                defaultValue={roomtype}
+                options={ROOMTYPE_OPTION}
+                onChange={() => {}}
+                small
+              />
+            </div>
             <input
               ref={newOffer}
               className='border-2 border-neutral-300 rounded-lg px-2 w-1/2'
             />
           </div>
         </div>
-        <div className='flex justify-center'>
+        <div className='flex flex-row justify-center gap-4'>
+          <button
+            onClick={() => {
+              fetchSpecialOffer(company!, building, roomtype);
+              // console.log(newOffer.current?.value);
+            }}
+            className='border border-[#EC662A] py-4 px-8 rounded-lg font-semibold text-[#EC662A] transition hover:bg-[#EC662A] hover:text-white'
+          >
+            SEARCH
+          </button>
           <button
             onClick={() => {
               editSpecialOffer(company!, newOffer.current?.value!);
@@ -182,7 +223,7 @@ const AdminSpecial: React.FC<AdminSpecialProps> = ({}) => {
                 small
               />
             </div>
-            <div className='w-2/6'>
+            <div className='w-1/6'>
               <SelectComp
                 disabled
                 defaultValue={building}
@@ -193,6 +234,16 @@ const AdminSpecial: React.FC<AdminSpecialProps> = ({}) => {
                 onChange={(e) => {
                   console.log(e);
                 }}
+                small
+              />
+            </div>
+            <div className='w-1/6'>
+              <SelectComp
+                disabled
+                placeholder={'Room'}
+                defaultValue={roomtype}
+                options={ROOMTYPE_OPTION}
+                onChange={() => {}}
                 small
               />
             </div>
@@ -233,7 +284,7 @@ const AdminSpecial: React.FC<AdminSpecialProps> = ({}) => {
                 small
               />
             </div>
-            <div className='w-2/6'>
+            <div className='w-1/6'>
               <SelectComp
                 disabled
                 defaultValue={building}
@@ -244,6 +295,16 @@ const AdminSpecial: React.FC<AdminSpecialProps> = ({}) => {
                 onChange={(e) => {
                   console.log(e);
                 }}
+                small
+              />
+            </div>
+            <div className='w-1/6'>
+              <SelectComp
+                disabled
+                placeholder={'Room'}
+                defaultValue={roomtype}
+                options={ROOMTYPE_OPTION}
+                onChange={() => {}}
                 small
               />
             </div>

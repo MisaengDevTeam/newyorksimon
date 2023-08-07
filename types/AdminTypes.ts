@@ -16,6 +16,7 @@ export const COMPANY_NAME = [
   { label: 'Stonehenge', value: 'sh' },
   { label: 'Stuytown', value: 'st' },
   { label: 'TFC', value: 'tfc' },
+  { label: 'Related', value: 'rltd' },
 ];
 
 export const UTILITY_OPTION = [
@@ -26,4 +27,12 @@ export const UTILITY_OPTION = [
 export const BROKER_FEE_OPTION = [
   { label: '중개비 있음', value: '중개비 있음' },
   { label: '중개비 없음', value: '중개비 없음' },
+];
+
+export const ROOMTYPE_OPTION = [
+  { label: 'All Types', value: 'All' },
+  { label: 'Studio', value: 'Studio' },
+  { label: '1 Bedroom', value: '1 Bedroom' },
+  { label: '2 Bedroom', value: '2 Bedroom' },
+  { label: '3 Bedroom', value: '3 Bedroom' },
 ];
